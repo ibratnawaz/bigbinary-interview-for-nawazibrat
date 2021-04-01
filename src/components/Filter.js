@@ -10,24 +10,10 @@ const Filter = ({ statusHandler }) => {
         </Dropdown.Toggle>
 
         <Dropdown.Menu>
-          <Dropdown.Item href='#1/all' onClick={() => statusHandler('all')}>
-            All Launches
-          </Dropdown.Item>
-          <Dropdown.Item
-            href='#2/upcoming'
-            onClick={() => statusHandler('upcoming')}>
-            Upcoming Launches
-          </Dropdown.Item>
-          <Dropdown.Item
-            href='#3/success'
-            onClick={() => statusHandler('success')}>
-            Successful Launches
-          </Dropdown.Item>
-          <Dropdown.Item
-            href='#4/failed'
-            onClick={() => statusHandler('failed')}>
-            Failed Launches
-          </Dropdown.Item>
+          <Dropdown.Item href='#1/all'>All Launches</Dropdown.Item>
+          <Dropdown.Item href='#2/upcoming'>Upcoming Launches</Dropdown.Item>
+          <Dropdown.Item href='#3/success'>Successful Launches</Dropdown.Item>
+          <Dropdown.Item href='#4/failed'>Failed Launches</Dropdown.Item>
         </Dropdown.Menu>
       </Dropdown>
     </div>

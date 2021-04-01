@@ -1,10 +1,11 @@
 import React, { useState, useEffect } from 'react'
 import { Spinner, Table } from 'react-bootstrap'
+
 import DateFilter from './DateFilter'
 import Filter from './Filter'
 import fetchData from '../utils/FetchData'
 
-const DataTable = () => {
+const DataTable = ({ location }) => {
   const [launches, setLaunches] = useState(null)
   const [loading, setLoading] = useState(false)
 
@@ -17,8 +18,18 @@ const DataTable = () => {
     if (!launches) fetchLaunches()
   }, [launches])
 
-  const statusHandler = async (status) => {
+  useEffect(() => {
+    setLoading(true)
+    statusHandler()
+    setTimeout(() => {
+      setLoading(false)
+    }, 500)
+    // eslint-disable-next-line
+  }, [location])
+
+  const statusHandler = async () => {
     setLaunches(await fetchData())
+    const status = location.hash.split('/').pop()
     if (status === 'success') {
       setLaunches((prevState) =>
         prevState.filter((ele) => ele.launch_success === true)
@@ -59,7 +70,7 @@ const DataTable = () => {
             </tr>
           </thead>
           <tbody>
-            {launches == null && loading ? (
+            {launches == null || loading ? (
               <tr>
                 <td colSpan={7} className='text-center'>
                   <Spinner animation='border' />

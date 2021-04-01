@@ -11,7 +11,7 @@ const DateFilter = () => {
     <>
       <div className='text-secondary' onClick={handleShow}>
         <i className='far fa-calendar-minus mr-2'></i>{' '}
-        <span className='h6'>Past 6 Months</span>
+        <span className='h6'>Select Date</span>
         <i className='fas fa-angle-down ml-3'></i>
       </div>
 
