@@ -1,13 +1,47 @@
-import React from 'react'
+import React, { useState, useEffect } from 'react'
 import { Spinner, Table } from 'react-bootstrap'
+import DateFilter from './DateFilter'
+import Filter from './Filter'
+import fetchData from '../utils/FetchData'
 
-const DataTable = ({ launches, loading }) => {
+const DataTable = () => {
+  const [launches, setLaunches] = useState(null)
+  const [loading, setLoading] = useState(false)
+
+  useEffect(() => {
+    const fetchLaunches = async () => {
+      setLoading(true)
+      setLaunches(await fetchData())
+      setLoading(false)
+    }
+    if (!launches) fetchLaunches()
+  }, [launches])
+
+  const statusHandler = async (status) => {
+    setLaunches(await fetchData())
+    if (status === 'success') {
+      setLaunches((prevState) =>
+        prevState.filter((ele) => ele.launch_success === true)
+      )
+    } else if (status === 'failed') {
+      setLaunches((prevState) =>
+        prevState.filter((ele) => ele.launch_success === false)
+      )
+    } else if (status === 'upcoming') {
+      setLaunches((prevState) =>
+        prevState.filter((ele) => ele.launch_success === null)
+      )
+    }
+  }
+
   return (
     <>
       <div className='row mb-5'>
-        <div className='col-md-6'>Past 6 Months</div>
         <div className='col-md-6'>
-          <div className='float-right'>All Launches</div>
+          <DateFilter />
+        </div>
+        <div className='col-md-6'>
+          <Filter statusHandler={statusHandler} />
         </div>
       </div>
 
