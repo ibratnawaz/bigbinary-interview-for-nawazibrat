@@ -1,21 +1,29 @@
 import React from 'react'
-import { Dropdown } from 'react-bootstrap'
+import { Form } from 'react-bootstrap'
 
-const Filter = ({ statusHandler }) => {
+const Filter = ({ filter, setFilter, history }) => {
+  const changeHandler = (e) => {
+    e.preventDefault()
+    setFilter(() => {
+      history.push('/1/' + e.target.value)
+      return e.target.value
+    })
+  }
+
   return (
-    <div className='float-right'>
-      <Dropdown>
-        <Dropdown.Toggle id='dropdown-basic' className='filter-menu'>
-          <i className='fas fa-filter'></i> &nbsp;Dropdown Button
-        </Dropdown.Toggle>
+    <div className='float-right filter-box'>
+      <i className='fas fa-filter'></i>
 
-        <Dropdown.Menu>
-          <Dropdown.Item href='#1/all'>All Launches</Dropdown.Item>
-          <Dropdown.Item href='#2/upcoming'>Upcoming Launches</Dropdown.Item>
-          <Dropdown.Item href='#3/success'>Successful Launches</Dropdown.Item>
-          <Dropdown.Item href='#4/failed'>Failed Launches</Dropdown.Item>
-        </Dropdown.Menu>
-      </Dropdown>
+      <Form.Control
+        as='select'
+        className='filter-menu'
+        value={filter}
+        onChange={changeHandler}>
+        <option value='all'>All Launches</option>
+        <option value='upcoming'>Upcoming Launches</option>
+        <option value='success'>Successful Launches</option>
+        <option value='failed'>Failed Launches</option>
+      </Form.Control>
     </div>
   )
 }

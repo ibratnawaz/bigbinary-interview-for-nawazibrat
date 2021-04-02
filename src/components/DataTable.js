@@ -3,20 +3,22 @@ import { Spinner, Table } from 'react-bootstrap'
 
 import DateFilter from './DateFilter'
 import Filter from './Filter'
+import Paginate from './Paginate'
 import fetchData from '../utils/FetchData'
 
-const DataTable = ({ location }) => {
+const DataTable = ({ location, history }) => {
   const [launches, setLaunches] = useState(null)
   const [loading, setLoading] = useState(false)
+  const [currentPage, setCurrentPage] = useState(1)
+  const [dataPerPage] = useState(12)
+  const [filter, setFilter] = useState('all')
 
   useEffect(() => {
-    const fetchLaunches = async () => {
-      setLoading(true)
-      setLaunches(await fetchData())
-      setLoading(false)
-    }
-    if (!launches) fetchLaunches()
-  }, [launches])
+    setLoading(true)
+    if (!launches) statusHandler()
+    setLoading(false)
+    // eslint-disable-next-line
+  }, [])
 
   useEffect(() => {
     setLoading(true)
@@ -24,12 +26,16 @@ const DataTable = ({ location }) => {
     setTimeout(() => {
       setLoading(false)
     }, 500)
+    setCurrentPage(
+      location.pathname.split('/')[1] ? location.pathname.split('/')[1] : 1
+    )
     // eslint-disable-next-line
   }, [location])
 
   const statusHandler = async () => {
     setLaunches(await fetchData())
-    const status = location.hash.split('/').pop()
+    const status = location.pathname.split('/')[2]
+    setFilter(!status ? 'all' : status)
     if (status === 'success') {
       setLaunches((prevState) =>
         prevState.filter((ele) => ele.launch_success === true)
@@ -45,6 +51,16 @@ const DataTable = ({ location }) => {
     }
   }
 
+  var indexOfLastData = currentPage * dataPerPage
+  var indexOfFirstData = indexOfLastData - dataPerPage
+  if (launches) {
+    if (!currentPage.length) {
+      indexOfFirstData = 0
+      indexOfLastData = dataPerPage
+    }
+    var currentPosts = launches.slice(indexOfFirstData, indexOfLastData)
+  }
+
   return (
     <>
       <div className='row mb-5'>
@@ -52,7 +68,12 @@ const DataTable = ({ location }) => {
           <DateFilter />
         </div>
         <div className='col-md-6'>
-          <Filter statusHandler={statusHandler} />
+          <Filter
+            statusHandler={statusHandler}
+            setFilter={setFilter}
+            filter={filter}
+            history={history}
+          />
         </div>
       </div>
 
@@ -78,9 +99,13 @@ const DataTable = ({ location }) => {
               </tr>
             ) : (
               launches &&
-              launches.map((obj, idx) => (
+              currentPosts.map((obj, idx) => (
                 <tr key={idx}>
-                  <td>{idx < 9 ? `0${idx + 1}` : idx + 1}</td>
+                  <td>
+                    {idx + indexOfFirstData < 9
+                      ? `0${idx + 1 + indexOfFirstData}`
+                      : idx + 1 + indexOfFirstData}
+                  </td>
                   <td>{obj.launch_date_utc.slice(0, 10)}</td>
                   <td>{obj.launch_site.site_name}</td>
                   <td>{obj.mission_name}</td>
@@ -108,6 +133,16 @@ const DataTable = ({ location }) => {
           </tbody>
         </Table>
       </div>
+
+      {launches && (
+        <Paginate
+          dataPerPage={dataPerPage}
+          totalPosts={launches.length}
+          history={history}
+          filter={filter}
+          currentPage={currentPage}
+        />
+      )}
     </>
   )
 }

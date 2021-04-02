@@ -30,10 +30,23 @@ table td {
   border-radius: 16px;
 }
 
-.filter-menu {
-  background: black !important;
-}
-
 .text-secondary {
   cursor: pointer;
+}
+
+.filter-box {
+  display: flex;
+  flex-direction: row;
+}
+
+.filter-menu {
+  border: none !important;
+}
+
+.filter-menu:focus {
+  box-shadow: none !important;
+}
+
+.fa-filter {
+  margin-top: 14px;
 }
