@@ -1,14 +1,18 @@
 import React, { useState, useEffect } from 'react'
 import { Spinner, Table } from 'react-bootstrap'
+import moment from 'moment'
 
 import DateFilter from './DateFilter'
 import Filter from './Filter'
 import Paginate from './Paginate'
+import LaunchDetails from './LaunchDetails'
 import fetchData from '../utils/FetchData'
 
 const DataTable = ({ location, history }) => {
   const [launches, setLaunches] = useState(null)
   const [loading, setLoading] = useState(false)
+  const [show, setShow] = useState(false)
+  const [info, setInfo] = useState({})
   const [currentPage, setCurrentPage] = useState(1)
   const [dataPerPage] = useState(12)
   const [filter, setFilter] = useState('all')
@@ -49,6 +53,11 @@ const DataTable = ({ location, history }) => {
         prevState.filter((ele) => ele.launch_success === null)
       )
     }
+  }
+
+  const handleShow = (details) => {
+    setShow(true)
+    setInfo(details)
   }
 
   var indexOfLastData = currentPage * dataPerPage
@@ -100,13 +109,17 @@ const DataTable = ({ location, history }) => {
             ) : (
               launches &&
               currentPosts.map((obj, idx) => (
-                <tr key={idx}>
+                <tr key={idx} onClick={() => handleShow(obj)}>
                   <td>
                     {idx + indexOfFirstData < 9
                       ? `0${idx + 1 + indexOfFirstData}`
                       : idx + 1 + indexOfFirstData}
                   </td>
-                  <td>{obj.launch_date_utc.slice(0, 10)}</td>
+                  <td>
+                    {moment(obj.launch_date_utc).format(
+                      'D MMMM YYYY [at] h:mm'
+                    )}
+                  </td>
                   <td>{obj.launch_site.site_name}</td>
                   <td>{obj.mission_name}</td>
                   <td>{obj.rocket.second_stage.payloads[0].orbit}</td>
@@ -142,6 +155,10 @@ const DataTable = ({ location, history }) => {
           filter={filter}
           currentPage={currentPage}
         />
+      )}
+
+      {info.rocket && (
+        <LaunchDetails show={show} setShow={setShow} info={info} />
       )}
     </>
   )

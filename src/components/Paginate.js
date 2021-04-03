@@ -1,6 +1,7 @@
 import React from 'react'
 import { Pagination } from 'react-bootstrap'
 
+/* eslint-disable */
 const Paginate = ({
   dataPerPage,
   totalPosts,
