@@ -16,6 +16,7 @@ const DataTable = ({ location, history }) => {
   const [currentPage, setCurrentPage] = useState(1)
   const [dataPerPage] = useState(12)
   const [filter, setFilter] = useState('all')
+  const [dateRange, setDateRange] = useState(null)
 
   useEffect(() => {
     setLoading(true)
@@ -33,6 +34,12 @@ const DataTable = ({ location, history }) => {
     setCurrentPage(
       location.pathname.split('/')[1] ? location.pathname.split('/')[1] : 1
     )
+    if (location.pathname.split('/')[3]) {
+      setDateRange([
+        location.pathname.split('/')[3],
+        location.pathname.split('/')[4],
+      ])
+    }
     // eslint-disable-next-line
   }, [location])
 
@@ -40,6 +47,7 @@ const DataTable = ({ location, history }) => {
     setLaunches(await fetchData())
     const status = location.pathname.split('/')[2]
     setFilter(!status ? 'all' : status)
+
     if (status === 'success') {
       setLaunches((prevState) =>
         prevState.filter((ele) => ele.launch_success === true)
@@ -51,6 +59,15 @@ const DataTable = ({ location, history }) => {
     } else if (status === 'upcoming') {
       setLaunches((prevState) =>
         prevState.filter((ele) => ele.launch_success === null)
+      )
+    }
+    if (dateRange) {
+      setLaunches((prevState) =>
+        prevState.filter(
+          (ele) =>
+            ele.launch_date_utc >= dateRange[0] &&
+            ele.launch_date_utc <= dateRange[1]
+        )
       )
     }
   }
@@ -74,7 +91,12 @@ const DataTable = ({ location, history }) => {
     <>
       <div className='row mb-5'>
         <div className='col-md-6'>
-          <DateFilter />
+          <DateFilter
+            history={history}
+            filter={filter}
+            currentPage={currentPage}
+            dateRange={dateRange}
+          />
         </div>
         <div className='col-md-6'>
           <Filter
@@ -82,6 +104,7 @@ const DataTable = ({ location, history }) => {
             setFilter={setFilter}
             filter={filter}
             history={history}
+            dateRange={dateRange}
           />
         </div>
       </div>
@@ -143,6 +166,13 @@ const DataTable = ({ location, history }) => {
                 </tr>
               ))
             )}
+            {launches && !launches.length && !loading && (
+              <tr>
+                <td colSpan={7} className='text-center'>
+                  No results found for the specific filter
+                </td>
+              </tr>
+            )}
           </tbody>
         </Table>
       </div>
@@ -154,6 +184,7 @@ const DataTable = ({ location, history }) => {
           history={history}
           filter={filter}
           currentPage={currentPage}
+          dateRange={dateRange}
         />
       )}
 

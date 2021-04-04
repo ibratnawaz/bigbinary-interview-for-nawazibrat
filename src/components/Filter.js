@@ -1,11 +1,15 @@
 import React from 'react'
 import { Form } from 'react-bootstrap'
 
-const Filter = ({ filter, setFilter, history }) => {
+const Filter = ({ filter, setFilter, history, dateRange }) => {
   const changeHandler = (e) => {
     e.preventDefault()
     setFilter(() => {
-      history.push('/1/' + e.target.value)
+      if (dateRange) {
+        history.push(
+          '/1/' + e.target.value + '/' + dateRange[0] + '/' + dateRange[1]
+        )
+      } else history.push('/1/' + e.target.value)
       return e.target.value
     })
   }

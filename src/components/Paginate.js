@@ -8,6 +8,7 @@ const Paginate = ({
   history,
   filter,
   currentPage,
+  dateRange,
 }) => {
   const pageNumbers = []
 
@@ -16,7 +17,11 @@ const Paginate = ({
   }
 
   const clickHandler = (num) => {
-    history.push('/' + num + '/' + filter)
+    if (dateRange) {
+      history.push(
+        '/' + num + '/' + filter + '/' + dateRange[0] + '/' + dateRange[1]
+      )
+    } else history.push('/' + num + '/' + filter)
   }
 
   const prevNextHandler = (type) => {
