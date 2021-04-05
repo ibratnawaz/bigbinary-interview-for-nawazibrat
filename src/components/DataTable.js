@@ -27,6 +27,12 @@ const DataTable = ({ location, history }) => {
 
   useEffect(() => {
     setLoading(true)
+    if (location.pathname.split('/')[3]) {
+      setDateRange([
+        location.pathname.split('/')[3],
+        location.pathname.split('/')[4],
+      ])
+    }
     statusHandler()
     setTimeout(() => {
       setLoading(false)
@@ -34,12 +40,6 @@ const DataTable = ({ location, history }) => {
     setCurrentPage(
       location.pathname.split('/')[1] ? location.pathname.split('/')[1] : 1
     )
-    if (location.pathname.split('/')[3]) {
-      setDateRange([
-        location.pathname.split('/')[3],
-        location.pathname.split('/')[4],
-      ])
-    }
     // eslint-disable-next-line
   }, [location])
 
@@ -61,12 +61,13 @@ const DataTable = ({ location, history }) => {
         prevState.filter((ele) => ele.launch_success === null)
       )
     }
-    if (dateRange) {
+
+    if (location.pathname.split('/')[3]) {
       setLaunches((prevState) =>
         prevState.filter(
           (ele) =>
-            ele.launch_date_utc >= dateRange[0] &&
-            ele.launch_date_utc <= dateRange[1]
+            ele.launch_date_utc >= location.pathname.split('/')[3] &&
+            ele.launch_date_utc <= location.pathname.split('/')[4]
         )
       )
     }
