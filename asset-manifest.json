@@ -1,0 +1,23 @@
+{
+  "files": {
+    "main.css": "/nawazibrat.github.io/bigbinary-interview-for-nawazibrat/static/css/main.8bbd1060.chunk.css",
+    "main.js": "/nawazibrat.github.io/bigbinary-interview-for-nawazibrat/static/js/main.5612199b.chunk.js",
+    "main.js.map": "/nawazibrat.github.io/bigbinary-interview-for-nawazibrat/static/js/main.5612199b.chunk.js.map",
+    "runtime-main.js": "/nawazibrat.github.io/bigbinary-interview-for-nawazibrat/static/js/runtime-main.180a31e3.js",
+    "runtime-main.js.map": "/nawazibrat.github.io/bigbinary-interview-for-nawazibrat/static/js/runtime-main.180a31e3.js.map",
+    "static/css/2.6d129cde.chunk.css": "/nawazibrat.github.io/bigbinary-interview-for-nawazibrat/static/css/2.6d129cde.chunk.css",
+    "static/js/2.9c83c54f.chunk.js": "/nawazibrat.github.io/bigbinary-interview-for-nawazibrat/static/js/2.9c83c54f.chunk.js",
+    "static/js/2.9c83c54f.chunk.js.map": "/nawazibrat.github.io/bigbinary-interview-for-nawazibrat/static/js/2.9c83c54f.chunk.js.map",
+    "index.html": "/nawazibrat.github.io/bigbinary-interview-for-nawazibrat/index.html",
+    "static/css/2.6d129cde.chunk.css.map": "/nawazibrat.github.io/bigbinary-interview-for-nawazibrat/static/css/2.6d129cde.chunk.css.map",
+    "static/css/main.8bbd1060.chunk.css.map": "/nawazibrat.github.io/bigbinary-interview-for-nawazibrat/static/css/main.8bbd1060.chunk.css.map",
+    "static/js/2.9c83c54f.chunk.js.LICENSE.txt": "/nawazibrat.github.io/bigbinary-interview-for-nawazibrat/static/js/2.9c83c54f.chunk.js.LICENSE.txt"
+  },
+  "entrypoints": [
+    "static/js/runtime-main.180a31e3.js",
+    "static/css/2.6d129cde.chunk.css",
+    "static/js/2.9c83c54f.chunk.js",
+    "static/css/main.8bbd1060.chunk.css",
+    "static/js/main.5612199b.chunk.js"
+  ]
+}
